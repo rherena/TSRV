@@ -63,32 +63,44 @@ def GetMkt(tickers, start_date, end_date, freq = 'daily', bmark_tick = 'SPY'): #
     Stock_data = pd.DataFrame([])
     for i in tickers:
         histData = client.get_ticker_price(i,
-                                    fmt='json',
-                                    startDate=start_date,
-                                    endDate=end_date,
-                                    frequency=freq)
+		                                    fmt='json',
+		                                    startDate=start_date,
+		                                    endDate=end_date,
+		                                    frequency=freq)
         histData = json_normalize(histData)
-        histData['creturns'] = histData['adjClose'].pct_change()
-        histData['creturns'] = histData['creturns'].fillna(0) + 1
-        histData['preturns'] = histData['adjClose'].pct_change() - histData['divCash']/histData['close']
-        histData['preturns'] = histData['preturns'].fillna(0) + 1
-        histData['tcreturns'] = histData['creturns'].cumprod().values
+        histData['clRtn'] = histData['adjClose'].pct_change() + 1
+        histData['clRtn'] = np.log(histData['clRtn'].fillna(1))
+        histData['Pxln'] = histData['clRtn'].cumsum().values
+
+
         histData.reset_index(inplace=True)
         histData['date'] = histData.date.apply(lambda x: x[:10])
         histData['date'] = histData.date.map(lambda x: datetime.strptime(x,'%Y-' '%m-' '%d'))
         histData['ticker'] = i
+
         if i != bmark_tick:
             dkeys = Stock_data[Stock_data.ticker == bmark_tick]['date']
             histData = histData[histData['date'].isin(dkeys)] 
-            histData['rreturns-d'] = 1 + (histData['creturns'].values - Stock_data[Stock_data.ticker == bmark_tick].creturns.values) 
-            histData['rreturns'] = histData['rreturns-d'].cumprod().values
+            histData['relRtn'] = (histData['clRtn'].values - Stock_data[Stock_data['ticker'] == bmark_tick]['clRtn'].values) 
+            histData['relPxln'] = histData['relRtn'].cumsum().values
         else:
-            histData['rreturns'] = 1
-            histData['rreturns-d'] = 1
+            histData['relRtn'] = 0.0
+            histData['relPxln'] = 0.0
+
+        # Historical Return Series Time Frames
+        histSer = [10, 21, 63, 126, 252]
+        for s in histSer:
+        	if len(str(s)) == 2:
+        		_Ser = '0' + str(s)
+        	else:
+        		_Ser = str(s)
+        	histData['clRtn'+'H'+_Ser] = histData['clRtn'].rolling(window=s, min_periods=s).sum()/s
+
+
         print(i, histData.shape, histData.date.min())
         Stock_data = Stock_data.append(histData, ignore_index=True, sort=True)
 
-            
+    Stock_data['date'] = pd.to_datetime(Stock_data['date'])
     
     print(Stock_data.shape, Stock_data.date.max(), Stock_data.date.min())
     
