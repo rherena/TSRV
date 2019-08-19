@@ -95,12 +95,17 @@ def GetMkt(tickers, start_date, end_date, freq = 'daily', bmark_tick = 'SPY'): #
         	else:
         		_Ser = str(s)
         	histData['clRtn'+'H'+_Ser] = histData['clRtn'].rolling(window=s, min_periods=s).sum()/s
+        	histData['relRtn'+'H'+_Ser] = histData['relRtn'].rolling(window=s, min_periods=s).sum()/s
+        	histData['clHv'+_Ser] = histData['clRtn'].rolling(window=s, min_periods=s).std()*np.sqrt(252)
+        	histData['relHv'+_Ser] = histData['relRtn'].rolling(window=s, min_periods=s).std()*np.sqrt(252)
 
 
         print(i, histData.shape, histData.date.min())
         Stock_data = Stock_data.append(histData, ignore_index=True, sort=True)
 
     Stock_data['date'] = pd.to_datetime(Stock_data['date'])
+    Stock_data['period'] = Stock_data['date']
+    Stock_data.index = Stock_data.date
     
     print(Stock_data.shape, Stock_data.date.max(), Stock_data.date.min())
     
@@ -113,9 +118,9 @@ def ForwardTarget(df, tickers, rfld, f=21):
         forwards = []
         df_t = df[df['ticker'] == t][['date', 'ticker']]
         for i in np.arange(0,df_t.shape[0]):
-            f_ret = df[df['ticker'] == t][rfld][i+1:(i+f+1)].prod()
+            f_ret = df[df['ticker'] == t][rfld][i+1:(i+f+1)].sum()
             forwards.append(f_ret)
-            if f_ret > 1.0:
+            if f_ret > 0.0:
                 side.append(1)
             else: 
                 side.append(-1)     
@@ -126,10 +131,11 @@ def ForwardTarget(df, tickers, rfld, f=21):
         scaler = StandardScaler()
         df_t['forwardstdS'] = scaler.fit_transform(df_t['forward'].values.reshape(-1,1))
         sides = sides.append(df_t, ignore_index=True)
+        print(t)
 
     sides = sides.set_index('date')
     sides['date'] = sides.index
-
+    
 
     return sides
 
