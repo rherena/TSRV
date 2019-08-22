@@ -20,18 +20,43 @@ We have two notebooks and a folder structure to hold all our EDA, model testing/
 
 Sample Plots from our Analysis:
 
-![Combinatorial Backetest Results 3m Sharpes](plots/FinalLogisticRegressionPlot.png "CombBackTest")
+Mean Decrease in Importance (final iteration):
 
+![MDI](plots/FeatureImportance/rCrossSection/featImportance_MDI59derCrossSection.png "MDI")
+
+Mean Accuracy improvement over noised feature (MDA): 
+
+![MDA](plots/FeatureImportance/rCrossSection/featImportance_MDA59derCrossSection.png "MDAFinal")
+
+ROC for test set starting in 2017-06-30 - 8/2019:
+
+![ROCCURVE](plots/FeatureImportance/rCrossSection/ROC_bal-0.7mrs-5md-0.02mss-200t.png.png "ROCFinal")
+
+IS Sharpe vs Out of Sample Sharpes for 3M time periods combinatorially trained, purged & measured using model predictions and test returns
+
+![Combinatorial Backetest Results 3m Sharpes](plots/FinalLogisticRegressionPlot.png "CombBackTestLR")
+
+![Combinatorial Backetest Results 3m Sharpes](plots/FinalRandomForestPlot.png "CombBackTestRF")
 
 
 
 Walk Forward Tabular Results:
 
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+We used 10 bp or 1/10th of a percent for transaction costs
+
+Walk forward Stats |
+--- |
+Ann-Return | 10.090
+Ann-Vol | 8.000
+Sharpe | 1.261
+Ann-Alpha-Bench | -0.540
+Ann-Alpha-Eq |	2.720
+TE-Bench | 8.807
+TE-EQwtd | 3.682
+IR-SPY | -0.061
+IR-EQ |	0.739
+TestYears |	4.670
+TCost |	10.000
 
 
 * We used the ta package heavily for creation of technical features: 
