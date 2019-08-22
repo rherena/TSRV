@@ -30,7 +30,7 @@ Mean Accuracy improvement over noised feature (MDA):
 
 ROC for test set starting in 2017-06-30 - 8/2019:
 
-![ROCCURVE](plots/FeatureImportance/rCrossSection/ROC_bal-0.7mrs-5md-0.02mss-200t.png.png "ROCFinal")
+![ROCCURVE](plots/FeatureImportance/rCrossSection/ROC_bal-0.7mrs-5md-0.02mss-200t.png "ROCFinal")
 
 IS Sharpe vs Out of Sample Sharpes for 3M time periods combinatorially trained, purged & measured using model predictions and test returns
 
