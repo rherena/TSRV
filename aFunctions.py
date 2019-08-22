@@ -15,7 +15,8 @@ import pandas as pd
 import seaborn as sns
 config = {}
 config['session'] = True
-config['api_key'] = '355d47f0f5a210d8c28e3ee8ee5a020a6b0ad539'
+f = open("API.txt", "r")
+config['api_key'] = str(f.read())
 client = TiingoClient(config)
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from statsmodels.graphics.tsaplots import plot_acf

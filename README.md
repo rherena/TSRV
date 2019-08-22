@@ -18,6 +18,12 @@ We have two notebooks and a folder structure to hold all our EDA, model testing/
 		- Combinatorial Backtesting Method 
 		- Walk Forward Backtesting Method
 
+	- The majority of our function calls reside in aFunctions.py
+		- Our API to gather Data, Side Tagging
+		- Cross Validation Functions for Feature Importance
+		- Updated Purged Method for MDA CV / SFI
+		- Plotting Functions
+
 Sample Plots from our Analysis:
 
 Mean Decrease in Importance (final iteration):
