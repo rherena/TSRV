@@ -44,8 +44,8 @@ Walk Forward Tabular Results:
 
 We used 10 bp or 1/10th of a percent for transaction costs
 
-Walk forward Stats |
---- |
+Walk forward Stats | Values |
+--- | --- |
 Ann-Return | 10.090
 Ann-Vol | 8.000
 Sharpe | 1.261
