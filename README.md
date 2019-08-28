@@ -24,9 +24,11 @@ We have two notebooks and a folder structure to hold all our EDA, model testing/
 		- Updated Purged Method for MDA CV / SFI
 		- Plotting Functions
 
-Sample Plots from our Analysis:
+Sample Plots from our Analysis on Risk Off Tickers (['TLT' 'XLP' 'XLU' 'XLV']):
 
-Mean Decrease in Importance (final iteration):
+Mean Decrease in Importance (final iteration using Bagged Random Tree Model):
+
+OOS = Out of Sample Accuracy, for MDA it is Purged and Cross Validated.
 
 ![MDI](plots/FeatureImportance/rCrossSection/featImportance_MDI59derCrossSection.png "MDI")
 
